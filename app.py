@@ -1,10 +1,13 @@
-from flask import Flask
 
-app = Flask("app")
+from flask import Flask, request, jsonify
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
 
-if __name__ == '__main__':
-    app.run(debug=True)
+app = Flask(__name__)
+	
+
+@app.route('/', methods = ['GET'])
+def get_post():
+   return jsonify({"Hello":"World"})
+   
+if __name__ == "__main__":
+    app.run(debug=True)       

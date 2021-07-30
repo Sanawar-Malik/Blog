@@ -1,0 +1,22 @@
+{
+    "params":
+    {
+        "local_server":"True",
+        "prod_uri":"mysql://root:password@localhost:3306/Appblog",
+        "local_uri":"mysql://root:password@localhost:3306/Appblog",
+        "fb_url":"https://facebook.com/Appblog",
+        "tw_url":"https://twitter.com/Appblog",
+        "gh_url":"https://github.com/Appblog",
+        "blog_name":"Blog Website",
+        "gmail-user": "",
+        "gmail-password":"",
+        "about_text":"Many of life’s failures are people who did not realize how close they were to success when they gave up.",
+        "no_of_posts": 3,
+        "login_image":"login.jpg",
+        "admin_user": "malik",
+        "admin_password":"mn"
+                
+    }
+ 
+
+}

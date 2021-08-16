@@ -42,9 +42,10 @@ class Contacts(db.Model):
 class Posts(db.Model):
     sno = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
-    tagline = db.Column(db.String(120), nullable=False)
+    author = db.Column(db.String(120), nullable=False)
     slug = db.Column(db.String(21), nullable=False)
     content = db.Column(db.String(120), nullable=False)
+   
     date = db.Column(db.String(12), nullable=False)
     img_file = db.Column(db.String(12), nullable=True)
 
@@ -86,8 +87,6 @@ def delete(sno):
      return redirect('/dashboard')
 
 
-
-
 @app.route('/about')
 def about():
     return render_template('about.html', params=params)
@@ -100,7 +99,7 @@ def dashboard():
         return render_template('dashboard.html', params=params, posts=posts)
         
     if request.method=="POST":
-        username = request.form.get('uname')
+        username = request.form.get ('uname')
         userpass = request.form.get('pass')
 
         if ( username == params['admin_user'] and userpass == params['admin_password']):
@@ -119,20 +118,20 @@ def edit(sno):
 
         if request.method == 'POST':
            title = request.form.get('title') 
-           tline = request.form.get('tline') 
+           author = request.form.get('author') 
            slug = request.form.get('slug') 
            content = request.form.get('content') 
-           img_file = request.form.get('img_file') 
+           img_file = request.form.get('img_file')
            date=datetime.now()
 
            if sno == '0':
-               post = Posts(title = title, slug=slug, tagline=tline, content=content, img_file=img_file, date=date)
+               post = Posts(title = title, slug=slug, author=author, content=content, img_file=img_file, date=date)
                db.session.add(post)
                db.session.commit()
            else:
                post = Posts.query.filter_by(sno=sno).first()
                post.title = title
-               post.tagline = tline
+               post.author = author
                post.slug = slug
                post.content = content
                post.img_file = img_file
@@ -150,7 +149,7 @@ def edit(sno):
 @app.route("/contact", methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-        '''Add entry to the database'''
+        '''Add entry to the database''' 
         name = request.form.get('name')
         email = request.form.get('email')
         phone = request.form.get('phone')

@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block body %}
+
+<section class="home-banner-area">
+    <div class="container">
+      <div class="row justify-content-center fullscreen align-items-center">
+        <div class="col-lg-5 col-md-8 home-banner-left">
+          <h1 class="text-white">
+            Take the first step <br />
+            to learn with us
+          </h1>
+          <p class="mx-auto text-white  mt-20 mb-40">
+            In the history of modern astronomy, there is probably no one
+            greater leap forward than the building and launch of the space
+            telescope known as the Hubble.
+          </p>
+        </div>
+        <div class="offset-lg-2 col-lg-5 col-md-12 home-banner-right">
+          <img class="img-fluid" src="static/img/header-img.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ================ End banner Area ================= -->
+
+  <!-- ================ Start Feature Area ================= -->
+  
+<!-- ================ End banner Area ================= -->
+
+<!-- Start top-category-widget Area -->
+<section class="top-category-widget-area pt-90 pb-90 ">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="single-cat-widget">
+                    <div class="content relative">
+                        <div class="overlay overlay-bg"></div>
+                        <a href="#" target="_blank">
+                            <div class="thumb">
+                                <img class="content-image img-fluid d-block mx-auto" src="static/img/blog/cat-widget1.jpg" alt="">
+                            </div>
+                            <div class="content-details">
+                                <h4 class="content-title mx-auto text-uppercase">Social life</h4>
+                                <span></span>
+                                <p>Enjoy your social life together</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="single-cat-widget">
+                    <div class="content relative">
+                        <div class="overlay overlay-bg"></div>
+                        <a href="#" target="_blank">
+                            <div class="thumb">
+                                <img class="content-image img-fluid d-block mx-auto" src="static/img/blog/cat-widget2.jpg" alt="">
+                            </div>
+                            <div class="content-details">
+                                <h4 class="content-title mx-auto text-uppercase">Politics</h4>
+                                <span></span>
+                                <p>Be a part of politics</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="single-cat-widget">
+                    <div class="content relative">
+                        <div class="overlay overlay-bg"></div>
+                        <a href="#" target="_blank">
+                            <div class="thumb">
+                                <img class="content-image img-fluid d-block mx-auto" src="static/img/blog/cat-widget3.jpg" alt="">
+                            </div>
+                            <div class="content-details">
+                                <h4 class="content-title mx-auto text-uppercase">Food</h4>
+                                <span></span>
+                                <p>Let the food be finished</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End top-category-widget Area -->
+
+<!-- Start post-content Area -->
+<section class="post-content-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                {% for post in posts %}
+               
+                <div class="single-post row">
+                    <div class="col-lg-3  col-md-3 meta-details">
+                        <ul class="tags">
+                            <li><a href="#">Food,</a></li>
+                            <li><a href="#">Technology,</a></li>
+                            <li><a href="#">Politics,</a></li>
+                            <li><a href="#">Lifestyle</a></li>
+                        </ul>
+                        
+                        <div class="user-details row">
+                            <p class="user-name col-lg-12 col-md-12 col-6"><a href="#">{{post.author}}</a> <span class="lnr lnr-user"></span></p>
+                            <p class="date col-lg-12 col-md-12 col-6"><a href="#">{{post.date}}</a> <span class="lnr lnr-calendar-full"></span></p>
+                    
+                            <p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span class="lnr lnr-bubble"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-9 col-md-9 ">
+                        <div class="feature-img">
+                            <img class="img-fluid" src="/static/img/blog/{{post.img_file}}" alt="">
+                        </div>
+                        <a class="posts-title" href="/post/{{post.slug}}">
+                            <h3>{{post.title}}</h3>
+                        </a>
+                        <p class="excert">
+                            {{post.content[0:200]}}...
+                        </p>
+                        <a href="/post/{{post.slug}}" class="view-more-btn">View More</a>
+                    </div>
+                </div>
+                {% endfor %}
+                <nav class="blog-pagination justify-content-center d-flex">
+						<ul class="pagination">
+							<li class="page-item active" style="margin-right: 100px;">
+								<a href="{{prev}}" class="page-link" aria-label="Previous">
+									<span aria-hidden="true">
+										<span class="lnr lnr-chevron-left">Previous</span>
+									</span>
+								</a>
+							</li>
+							
+							<li class="page-item active" style="margin-left: 100px;">
+								<a href="{{next}}" class="page-link" aria-label="Next">Next
+									<span aria-hidden="true">
+										<span class="lnr lnr-chevron-right"></span>
+									</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+             
+            </div>
+            <div class="col-lg-4 sidebar-widgets">
+                <div class="widget-wrap">
+                    <div class="single-sidebar-widget search-widget">
+                        <form class="search-form" action="#">
+                            <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'">
+                            <button type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="single-sidebar-widget user-info-widget">
+                        <img src="static/img/blog/user-info.png" alt="">
+                        <a href="#">
+                            <h4>Charlie Barber</h4>
+                        </a>
+                        <p>
+                            Senior blog writer
+                        </p>
+                        <ul class="social-links">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-github"></i></a></li>
+                            
+                        </ul>
+                        <p>
+                            Boot camps have its supporters andit sdetractors. Some people do not understand why you should have to spend
+                            money on boot
+                            camp when you can get. Boot camps have itssuppor ters andits detractors.
+                        </p>
+                    </div>
+                    <div class="single-sidebar-widget popular-post-widget">
+                        <h4 class="popular-title">Popular Posts</h4>
+                        {% for post in posts %}
+                        <div class="popular-post-list">
+                            <div class="single-post-list d-flex flex-row align-items-center">
+                                <div class="thumb">
+                                    <img class="img-fluid" style="height: 70px; width: 70px;" src="static/img/blog/{{post.img_file}}" alt="">
+                                </div>
+                                <div class="details">
+                                    <a href="/post/{{post.slug}}">
+                                        <h6>{{post.title[0:30]}}</h6>
+                                    </a>
+                                    <p>{{post.date}}</p>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="single-sidebar-widget ads-widget">
+                        <a href="#"><img class="img-fluid" src="static/img/blog/ads-banner.jpg" alt=""></a>
+                    </div>
+                    <div class="single-sidebar-widget post-category-widget">
+                        <h4 class="category-title">Post Catgories</h4>
+                        <ul class="cat-list">
+                            <li>
+                                <a href="#" class="d-flex justify-content-between">
+                                    <p>Technology</p>
+                                    <p>37</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex justify-content-between">
+                                    <p>Lifestyle</p>
+                                    <p>24</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex justify-content-between">
+                                    <p>Fashion</p>
+                                    <p>59</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex justify-content-between">
+                                    <p>Art</p>
+                                    <p>29</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex justify-content-between">
+                                    <p>Food</p>
+                                    <p>15</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex justify-content-between">
+                                    <p>Architecture</p>
+                                    <p>09</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex justify-content-between">
+                                    <p>Adventure</p>
+                                    <p>44</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- ================ End footer Area ================= -->
+{% endblock %}  

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block body %}
+  <main class="relative container mx-auto bg-white px-4">
+    <article class="max-w-prose mx-auto py-8">
+      <h1 class="text-4xl font-bold">{{post.title}}</h1>
+      <h2>{{post.user.username}} <span class="mx-1 text-xs">&bull;</span>{{ post.pub_date.strftime('%Y-%m-%d') }}</h2>
+      <p class="mt-6 border-4">{{post.body|safe }}</p>
+    </article>
+  </main>
+  <div class="bg-white rounded shadow-sm p-8 mb-4">
+    <div class="mb-4">
+        <h2 class="text-black font-bold text-2xl">{{post.comments|length }} Comments</h2>
+    </div>
+    <form action="/comment/{{post.id}}" method="POST" >
+    <div class="w-full md:w-full px-3 mb-2 mt-2">
+      <textarea class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white" name="message" id="message" placeholder='Type Your Comment' required></textarea>
+   </div>
+   <div class="w-full md:w-full flex items-start md:w-full px-3">
+    <div class="-mr-1">
+       <input type='submit' class=" bg-green-500 rounded-md hover:bg-green-800  font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 text-white" value='Add'>
+    </div>
+ </div>
+    </form>
+</div>
+{% for comment in post.comments %}
+<div
+  class="bg-white text-black block px-8 py-2 mb-2 shadow overflow-hidden border border-gray-100 rounded-lg"
+  href="">
+  <div class="justify-between sm:flex">
+    <div>
+      <h5 class="text-xl  font-bold text-black">
+        {{comment.message}}
+      </h5>
+        <p>{{comment.user.username}} <span class="mx-1 text-xs">&bull;</span>{{comment.date_pub.strftime('%d-%m-%Y')}}</p>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

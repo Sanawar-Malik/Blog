@@ -1,48 +1,27 @@
 {% extends "base.html" %}
 {% block body %}
-
-<section class="banner-area">
-    <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <div class="col-lg-12 banner-right">
-          <h1 class="text-white">
-            Login
-          </h1>
-          <p class="mx-auto text-white  mt-20 mb-40">
-            In the history of modern astronomy, there is probably no one greater leap forward than the building.
-          </p>
-          <div class="link-nav">
-            <span class="box">
-              <a href="/">Home </a>
-              <i class="lnr lnr-arrow-right"></i>
-              <a href="/login.html">Login</a>
-            </span>
-          </div>
+<section class="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800">
+    <h1 class="text-4xl text-center font-bold text-white capitalize dark:text-white py-4">Login Form</h1>
+    <form method="post" action="/login" enctype="multipart/form-data">
+        <div class="">
+            <div>
+                <label class="text-white dark:text-gray-200" for="emailAddress">Username</label>
+                <input name="username" type="text" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" required>
+            </div>
+            <div>
+                <label class="text-white dark:text-gray-200" for="password">Password</label>
+                <input name="password" type="password" class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring" required>
+            </div>
+        </div>  
+        <div class="flex  mt-6">
+            <button type="submit" class="px-6 py-2 bg-red-500 tracking-wide text-white font-bold rounded-md hover:bg-red-700 hover:text-white shadow-md py-2 px-6 inline-flex items-center">submit</button>
         </div>
-      </div>
-    </div>
-  </section>
-  
-  <div class="container login-container">
-              <div class="row">
-                  
-                  <div class="col-md-6 login-form-2">
-                      <h3>Login</h3>
-                      <form action="/dashboard" method="post">
-                          <div class="form-group">
-                              <input type="text" class="form-control" id="uname" name="uname" placeholder="Your Username *" value="" />
-                          </div>
-                          <div class="form-group">
-                              <input type="password" class="form-control" id="pass" name="pass" placeholder="Your Password *" value="" />
-                          </div>
-                          <div class="form-group">
-                              <input type="submit" class="btnSubmit" value="Login" />
-                          </div>
-                          
-                      </form>
-                  </div>
-              </div>
-          </div>
+    </form>
+    <p class="flex flex-col mt-4 text-md">
+        <span class="text-white">Don't have an account?</span>
+        <a href="/register" class="text-green-600 font-bold text-decoration-underline hover:text-indigo-500no-underline hover:underline cursor-pointer transition ease-in duration-300">Sign up</a>
+    </p>
+  </section>  
 {% endblock %}
 
 		

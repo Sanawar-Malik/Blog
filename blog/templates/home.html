@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="px-6">
+        <div class="container flex justify-between mx-auto">
+            <div class="w-full lg:w-8/12">
+                <div class="flex items-center justify-between">
+                    <h1 class="text-xl font-bold text-gray-700 md:text-2xl">Post</h1>
+                </div>
+
+                {% for post in posts %}
+                <div class="mt-6">
+                    <div class=" bg-white text-black block p-4 overflow-hidden border border-gray-100 rounded-lg" href="">
+                        <div class="justify-between sm:flex">
+                        <div><h5 class="text-2xl font-bold text-black"><a href="/post/{{post.id}}" id="article-link-151230"> {{post.title}}       </a> </h5>
+                            <span class="mt-1 mr-4 text-xs font-medium text-gray-800">By {{post.user.username}}</span>
+                            <span class="mt-1 mr-4 text-xs font-medium text-gray-800">{{ post.pub_date.strftime('%Y-%m-%d') }}</span>
+                        </div>
+                        <!-- <div class="flex-shrink-0 hidden ml-3 sm:block">
+                            {% if post.user.image_file %}
+                            <img
+                            class="object-cover w-16 h-16 rounded-lg shadow-sm"
+                            src="{{image_file}}"
+                            alt=""
+                            />
+                            {% else %}
+                            <img
+                            class="object-cover w-16 h-16 rounded-lg shadow-sm"
+                            src="{{ url_for('static', filename = 'profile_pics/17.png') }}"
+                            alt=""
+                            />
+                            {% endif %}
+                        </div> -->
+                        </div>
+                        <div class="mt-4 sm:pr-8">
+                        <p class="text-sm text-black"> {{post.body[0:260]|safe }} </p>
+                        </div>
+                        <div class="flex items-center justify-between"><a href="/post/{{post.id}}"
+                            class="text-blue-500 hover:underline">Read more...</a>
+                    </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex">
+                              <a class="py-1 pl-1 pr-2 text-gray-600 text-sm rounded hover:bg-gray-100 hover:text-black">
+                                  <svg class="inline fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.884 12.595l.01.011L12 19.5l-6.894-6.894.01-.01A4.875 4.875 0 0112 5.73a4.875 4.875 0 016.884 6.865zM6.431 7.037a3.375 3.375 0 000 4.773L12 17.38l5.569-5.569a3.375 3.375 0 10-4.773-4.773L9.613 10.22l-1.06-1.062 2.371-2.372a3.375 3.375 0 00-4.492.25v.001z"></path>
+                                  </svg>
+                                 {{post.views}} <span class="hidden md:inline">views</span>
+                              </a>
+                              <a  class="py-1 pl-1 pr-2 text-gray-600 text-sm rounded hover:bg-gray-100 hover:text-black">
+                                  <svg class="inline fill-current" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10.5 5h3a6 6 0 110 12v2.625c-3.75-1.5-9-3.75-9-8.625a6 6 0 016-6zM12 15.5h1.5a4.501 4.501 0 001.722-8.657A4.5 4.5 0 0013.5 6.5h-3A4.5 4.5 0 006 11c0 2.707 1.846 4.475 6 6.36V15.5z"></path>
+                                  </svg>{{post.comments|length }} <span class="hidden md:inline">comments</span>
+                              </a>
+                            </div>
+                            <!-- <div class="flex items-center">                               
+                              <button type="button" class="bg-gray-400 rounded text-sm px-3 py-2 text-current hover:text-black hover:bg-gray-500">                      
+                                <span>Save</span>                      
+                              </button>              
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <section class="mt-8 container mx-auto flex items-center justify-around">
+                    <div>
+                        <div class="flex rounded border-b-2 border-grey-dark overflow-hidden">
+                            <a class="block text-white text-sm shadow-border bg-black hover:bg-gray-800 text-sm py-2 px-2 font-sans tracking-wide uppercase font-bold" href="{{prev}}">
+                                Previous
+                        </a>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex rounded border-b-2 border-grey-dark overflow-hidden">
+                            <a class="block text-white text-sm shadow-border bg-black hover:bg-gray-800 text-sm py-2 px-4 font-sans tracking-wide uppercase font-bold" href="{{next}}"> Next</a>
+                        </div>
+                    </div>
+                </section>
+            </div>        
+            <div class="hidden w-4/12 -mx-8 lg:block">
+                <div class="px-8">
+                    <h1 class="mb-4 text-xl font-bold text-gray-700">Authors</h1>
+                {% for u in user %}
+                    <div class="flex flex-col max-w-sm px-6 py-4 mx-auto bg-white rounded-lg shadow-md">
+                        <ul class="-mx-4">
+                            <li class="flex items-center">
+                                <p><a href="#" class="mx-1 font-bold text-gray-700 hover:underline">{{u.username}}</a></p>
+                            </li>
+                        </ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="bg-gray-900 mt-8">
+    <footer class="flex flex-wrap items-center justify-between p-3 m-auto">
+        <div class="container mx-auto flex flex-col flex-wrap items-center justify-between">
+            <div class="flex mx-auto text-white text-center">
+                Copyright blog post @ 2022
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}
+

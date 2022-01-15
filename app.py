@@ -2,7 +2,6 @@ from PIL import Image
 from flask import Flask, render_template, request, flash, redirect, sessions, url_for, current_app
 from flask.helpers import flash
 from flask_login import login_user,login_required, current_user, logout_user
-from form import UpdateAccountForm
 from werkzeug.utils import secure_filename
 import json
 import secrets

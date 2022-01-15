@@ -20,7 +20,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/Appblog'
+app.config['SQLALCHEMY_DATABASE_URI'] = ' postgresql://oyjdgcpgrqunlp:e1b08158eb103178ff517533b8bfb4f38f575342c59e2047d0e53714552eca42@ec2-18-234-17-166.compute-1.amazonaws.com:5432/df5tc5nrltbodu'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'MALIK'
 db = SQLAlchemy(app)

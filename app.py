@@ -18,17 +18,18 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-
+from flask_migrate import Migrate
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/Appblog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://cbbeomvpugkjjg:793e0d0b8335dc2cc1aba37a3652025362950beef9e47eadf869917976393050@ec2-18-234-17-166.compute-1.amazonaws.com:5432/dc0ptpl0n42t6l'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'MALIK'
 db = SQLAlchemy(app)
+migrate=Migrate(app, db)
 bcrypt=Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 login_manager.login_message_category = 'info'
-# postgres://cubyvuagxwfclm:56b5c2b18cab7094573a4f56d847a11fcaf27008ef74ca133a72ee8c15820679@ec2-3-227-15-75.compute-1.amazonaws.com:5432/d7pnbn7vkiv9a2
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -111,8 +112,8 @@ def home():
     else:
         prev = "/?page="+ str(page-1)
         next = "/?page="+ str(page+1)
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('home.html', params=params, posts=posts, prev=prev, next=next, user=user, image_file=image_file)
+    
+    return render_template('home.html', params=params, posts=posts, prev=prev, next=next, user=user)
 @app.route('/about')
 def about():
     return render_template('about.html')

@@ -56,7 +56,7 @@
           </div>
       </div>
   </nav>
-  <main role="main" class="container mt-8">
+  <main role="main" class="container mt-8 h-auto ">
     <div class="row">
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -71,7 +71,14 @@
         {% block body %}{% endblock %}  
       </div>
   </main>
+  <nav class="bg-white shadow bg-gray-900" role="navigation">
+    <div class="mx-auto py-4 flex flex-wrap items-center md:flex-no-wrap bg-gray-800 fixed-bottom">
+    
+    </div>
+  </nav>
 </div>
+
+
   <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 <script>
   const button = document.querySelector('#menu-button');

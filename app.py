@@ -21,7 +21,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from flask_migrate import Migrate
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://boacimoptizmwf:e09d673c1b9bba86e4f431f6e69f8ce86c25758af3d91fb36758881a4db75630@ec2-18-234-17-166.compute-1.amazonaws.com:5432/ddurbslneidnm7'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://yuxsiyzrcgaciz:a8ddeab01cda26ef7b9d319a732ba1e8122a409f069152292581cb7d83e11321@ec2-107-22-245-82.compute-1.amazonaws.com:5432/delb2fcqcp8luk'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'MALIK'
 db = SQLAlchemy(app)

@@ -13,7 +13,8 @@ from flask_bcrypt import Bcrypt,bcrypt
 from flask_login import LoginManager,login_manager
 from datetime import datetime
 from flask_login import UserMixin
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import Length, EqualTo, Email, DataRequired,  ValidationError
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from flask_wtf import FlaskForm
@@ -38,15 +39,22 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80),unique=True, nullable=False)
-    password = db.Column(db.String(150))
+    password_hash = db.Column(db.String(150))
     image_file = db.Column(db.String(150), nullable=False, default='default.jpg')
-    email = db.Column(db.String(20), unique=True, nullable=False)
+    email_address = db.Column(db.String(20), unique=True, nullable=False)
     date = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
     posts = db.relationship('Post', backref='user', lazy='dynamic',cascade="all,delete")
     comments = db.relationship('Comment', backref='user',lazy='dynamic',cascade="all,delete")
     def __repr__(self):
         return '<User %r>' % self.username
-    
+    @property
+    def password(self):
+        return self.password
+    @password.setter
+    def password(self, plain_text_password):
+        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')  
+    def check_password_correction(self, attempted_password):
+       return bcrypt.check_password_hash(self.password_hash, attempted_password)
 class Post(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(180), nullable=False)
@@ -67,7 +75,24 @@ class Comment(db.Model):
 
     def __repr__(self):
         return '<Comment %r' % self.name
-
+class RegisterForm(FlaskForm):
+    def validate_username(self, username_to_check):
+       user = User.query.filter_by(username=username_to_check.data).first()
+       if user:
+           raise ValidationError('Username already exists! Please try a different username')
+    def validate_email_address(self, email_address_to_check):
+        email_address = User.query.filter_by(email_address=email_address_to_check.data).first()
+        if email_address:
+            raise ValidationError('Email Address already exists! Please try a different email address')
+    username = StringField(label='User Name:', validators=[Length(min=2, max=30), DataRequired()])
+    email_address = StringField(label='Email Address:', validators=[Email(), DataRequired()])
+    password1 = PasswordField(label='Password:', validators=[Length(min=6), DataRequired()])
+    password2 = PasswordField(label='Confirm Password:', validators=[EqualTo('password1'), DataRequired()])
+    submit = SubmitField(label='Register')
+class LoginForm(FlaskForm):
+    username = StringField(label='User Name:', validators=[DataRequired()])
+    password = PasswordField(label='Password:', validators=[DataRequired()])
+    submit = SubmitField(label='Login')    
 
 class UpdateAccountForm(FlaskForm):
     username = StringField('Username',
@@ -112,11 +137,35 @@ def home():
     else:
         prev = "/?page="+ str(page-1)
         next = "/?page="+ str(page+1)
-    
     return render_template('home.html', params=params, posts=posts, prev=prev, next=next, user=user)
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/register', methods=['GET', 'POST'])
+def register_page():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user_to_create = User(username=form.username.data, email_address=form.email_address.data, password=form.password1.data)
+        db.session.add(user_to_create)
+        db.session.commit()
+        login_user(user_to_create)
+        flash(f"Account created successfully! You are now logged in as {user_to_create.username}", category='success')
+        return redirect(url_for('login_page'))
+    if form.errors != {}: #If there are not errors from the validations
+        for err_msg in form.errors.values():
+            flash(f'There was an error with creating a user: {err_msg}', category='danger')
+    return render_template('register.html', form=form)
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+    form = LoginForm()
+    if form.validate_on_submit():
+        attempted_user = User.query.filter_by(username=form.username.data).first()
+        if attempted_user and attempted_user.check_password_correction(
+                attempted_password=form.password.data
+        ):
+            login_user(attempted_user)
+            flash(f'Success! You are logged in as: {attempted_user.username}', category='success')
+            return redirect(url_for('home'))
+        else:
+            flash('Username and password are not match! Please try again', category='danger')
+    return render_template('login.html', form=form)
 @app.route('/comment/<int:post_id>', methods=['POST','GET'])
 def posts( post_id):
     post = Post.query.get_or_404(post_id)
@@ -164,47 +213,12 @@ def delcomment(id):
     db.session.commit()
     flash('Comment has deleted ','success')
     return redirect(url_for('admin'))
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    if request.method=="POST":
-        user = User.query.filter_by(username=request.form.get('username')).first()
-        if user:
-            flash('The username already exist!','warning')
-            return redirect(url_for('register'))
-        email = User.query.filter_by(email=request.form.get('email')).first()
-        if email:
-            flash('The email already exist!','warning') 
-            return redirect(url_for('register'))  
-        username = request.form.get("username")  
-        email = request.form.get("email")  
-        password = request.form.get("password")
-        repeat_password = request.form.get("repeat_password")           
-        if password != repeat_password:
-            flash("Password does not match please try again",'warning')
-            return redirect(url_for('register'))
-        password_has = bcrypt.generate_password_hash(password)    
-        users = User(username=username, email=email, password=password_has) 
-        db.session.add(users)
-        db.session.commit() 
-        flash("Thanks for registration",'success')
-        return redirect(url_for('login'))                  
-    return render_template('register.html')
-@app.route('/login', methods=['GET', 'POST'])
-def login():    
-    if request.method=='POST':
-        user = User.query.filter_by(username=request.form.get('username')).first()
-        if user and bcrypt.check_password_hash(user.password, request.form.get('password')):
-            login_user(user)
-            flash('Logged in successfully.', 'success')
-            next = request.args.get('next')
-            return redirect(next or url_for('home'))
-        flash('Username and password does not match, please try again','danger')    
-    return render_template('login.html')
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('login_page'))
 @app.route("/dashboard")
 @login_required
 def dashboard():

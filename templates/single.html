@@ -26,18 +26,16 @@
     </form>
 </div>
 {% for comment in post.comments %}
-<div
-  class="bg-white text-black block px-8 py-2 mb-2 shadow overflow-hidden border border-gray-100 rounded-lg"
+<div class="bg-white text-black block px-8 py-2 mb-16 shadow overflow-hidden border border-gray-100 rounded-lg"
   href="">
   <div class="justify-between sm:flex">
     <div>
       <h5 class="text-xl  font-bold text-black">
         {{comment.message}}
       </h5>
-        <p>{{comment.user.username}} <span class="mx-1 text-xs">&bull;</span>{{comment.date_pub.strftime('%d-%m-%Y')}}</p>
+        <p class="">{{comment.user.username}} <span class="mx-1 text-xs">&bull;</span>{{comment.date_pub.strftime('%d-%m-%Y')}}</p>
     </div>
   </div>
 </div>
 {% endfor %}
-</div>
 {% endblock %}
